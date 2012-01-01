@@ -1,0 +1,4 @@
+Changelog for Collections Module
+
+2011-12-31
+* Initial commit.
