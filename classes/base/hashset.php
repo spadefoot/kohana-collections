@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Copyright 2011 Spadefoot
+ * Copyright 2011-2012 Spadefoot
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
  *
  * @package Collection
  * @category HashSet
- * @version 2011-12-31
+ * @version 2012-01-02
  *
  * @abstract
  */
@@ -89,9 +89,11 @@ abstract class Base_HashSet extends Collection {
      * @return boolean                          whether the element was added
      */
     public function add_element($element) {
-        $key = $this->hash_code_for_element($element);
-        $this->elements[$key] = $element;
-        $this->count++;
+        $hash_code = self::hash_code($element);
+        if ( ! isset($this->elements[$hash_code])) {
+            $this->elements[$hash_code] = $element;
+            $this->count++;
+        }
         return TRUE;
     }
 
@@ -102,8 +104,7 @@ abstract class Base_HashSet extends Collection {
      * @return array                            an array of the elements
      */
     public function as_array() {
-        $array = array_values($this->elements);
-        return $array;
+        return $this->elements;
     }
 
     /**
@@ -151,34 +152,9 @@ abstract class Base_HashSet extends Collection {
      *                                          within the collection
      */
     public function has_element($element) {
-        $key = $this->hash_code_for_element($element);
-        $result = isset($this->elements[$key]);
+        $hash_code = self::hash_code($element);
+        $result = isset($this->elements[$hash_code]);
         return $result;
-    }
-
-    /**
-     * This function generates the hash code for the specified element.
-     *
-     * @access protected
-     * @param mixed $element                    the element to be hashed
-     * @return string                           the hash code the specified element
-     */
-    protected function hash_code_for_element($element) {
-        $key = serialize($element);
-        return $key;
-    }
-
-    /**
-     * This function returns the current key that is pointed at by the iterator.
-     *
-     * @access public
-     * @return integer                          the index on success or NULL on failure
-     */
-    public function key() {
-        if ($this->pointer < $this->count) {
-            return $this->pointer;
-        }
-        return NULL;
     }
 
     /**
@@ -226,7 +202,7 @@ abstract class Base_HashSet extends Collection {
      * @return boolean                          whether the element was removed
      */
     public function remove_element($element) {
-        $hash_code = $this->hash_code_for_element($element);
+        $hash_code = self::hash_code($element);
         if (isset($this->elements[$hash_code])) {
             unset($this->elements[$hash_code]);
             $this->count--;
@@ -271,7 +247,7 @@ abstract class Base_HashSet extends Collection {
     public function retain_element($element) {
         $elements = array();
         $count = 0;
-        $hash_code = $this->hash_code_for_element($element);
+        $hash_code = self::hash_code($element);
         if (isset($this->elements[$hash_code])) {
             $elements[$hash_code] = $this->elements[$hash_code];
             $count++;
@@ -279,6 +255,21 @@ abstract class Base_HashSet extends Collection {
         $this->elements - $elements;
         $this->count = $count;
         return ($this->count > 0);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * This function generates the hash code for the specified element.
+     *
+     * @access protected
+     * @param mixed $element                    the element to be hashed
+     * @return string                           the hash code the specified element
+     */
+    protected static function hash_code($element) {
+        $hash_code = (is_object($element)) ? spl_object_hash($element) : md5(serialize($element));
+        $hash_code = gettype($element) . ':' . $hash_code;
+        return $hash_code;
     }
 
 }

@@ -1,4 +1,9 @@
 Changelog for Collections Module
 
+2012-01-02
+* Fixed hash code in HashSet.
+* Removed HashSet::key.
+* Made HashSet::as_array() return $this->elements.
+
 2011-12-31
 * Initial commit.
