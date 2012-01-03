@@ -1,5 +1,9 @@
 Changelog for Collections Module
 
+2012-01-03
+* Change some isset to array_key_exists.
+* Updated copyright year in most classes.
+
 2012-01-02
 * Fixed HashSet::add_element($element).
 * Fixed HashSet::hash_code($element).

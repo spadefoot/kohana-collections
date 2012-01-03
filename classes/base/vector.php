@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Copyright 2011 Spadefoot
+ * Copyright 2011-2012 Spadefoot
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
  *
  * @package Collection
  * @category Vector
- * @version 2011-12-31
+ * @version 2012-01-03
  *
  * @abstract
  */
@@ -106,7 +106,7 @@ abstract class Base_Vector extends Collection {
      */
     public function get_element($index) {
         if (is_integer($index)) {
-            if (isset($this->elements[$index])) {
+            if (array_key_exists($index, $this->elements)) {
                 $element = $this->elements[$index];
                 return $element;
             }
@@ -281,7 +281,7 @@ abstract class Base_Vector extends Collection {
      */
     public function remove_index($index) {
         if (is_integer($index)) {
-            if (isset($this->elements[$index])) {
+            if (array_key_exists($index, $this->elements)) {
                 unset($this->elements[$index]);
                 $this->elements = array_values($this->elements);
                 $this->count--;
@@ -308,7 +308,7 @@ abstract class Base_Vector extends Collection {
      */
     public function remove_range($beg_index, $end_index) {
         if (is_integer($beg_index) && is_integer($end_index)) {
-            if (isset($this->elements[$beg_index]) && isset($this->elements[$end_index])) {
+            if (array_key_exists($beg_index, $this->elements) && array_key_exists($end_index, $this->elements)) {
                 if ($beg_index <= $end_index) {
                     for ($i = $beg_index; $i <= $end_index; $i++) {
                         unset($this->elements[$i]);
@@ -387,7 +387,7 @@ abstract class Base_Vector extends Collection {
      */
     public function set_element($index, $element) {
         if (is_integer($index)) {
-            if (isset($this->elements[$index])) {
+            if (array_key_exists($index, $this->elements)) {
                 $this->elements[$index] = $element;
                 return TRUE;
             }

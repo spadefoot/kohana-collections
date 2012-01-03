@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Copyright 2011 Spadefoot
+ * Copyright 2011-2012 Spadefoot
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
  *
  * @package Collection
  * @category Collection
- * @version 2011-12-31
+ * @version 2012-01-03
  *
  * @abstract
  */
@@ -114,7 +114,7 @@ abstract class Base_Collection extends Kohana_Object implements Countable, Itera
      *                                          equivalent to the collection
      */
     public function equals($variable) {
-        return (serialize($this) == serialize($variable));
+        return ( (string) serialize($this) == (string) serialize($variable));
     }
 
     /**

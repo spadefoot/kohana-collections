@@ -21,7 +21,7 @@
  *
  * @package Collection
  * @category HashSet
- * @version 2012-01-02
+ * @version 2012-01-03
  *
  * @abstract
  */
@@ -90,7 +90,7 @@ abstract class Base_HashSet extends Collection {
      */
     public function add_element($element) {
         $hash_code = self::hash_code($element);
-        if ( ! isset($this->elements[$hash_code])) {
+        if ( ! array_key_exists($hash_code, $this->elements)) {
             $this->elements[$hash_code] = $element;
             $this->count++;
         }
@@ -153,7 +153,7 @@ abstract class Base_HashSet extends Collection {
      */
     public function has_element($element) {
         $hash_code = self::hash_code($element);
-        $result = isset($this->elements[$hash_code]);
+        $result = array_key_exists($hash_code, $this->elements);
         return $result;
     }
 
@@ -166,19 +166,10 @@ abstract class Base_HashSet extends Collection {
      * @return boolean                          whether any elements were removed
      */
     public function remove_array(Array $array) {
-        $count = $this->count;
         foreach ($array as $element) {
-            while (($index = $this->index_of($element)) >= 0) {
-                unset($this->elements[$index]);
-                $count--;
-            }
+            $this->remove_element($element);
         }
-        if ($count < $this->count) {
-            $this->elements = array_values($this->elements);
-            $this->count = $count;
-            return TRUE;
-        }
-        return FALSE;
+        return TRUE;
     }
 
     /**
@@ -203,7 +194,7 @@ abstract class Base_HashSet extends Collection {
      */
     public function remove_element($element) {
         $hash_code = self::hash_code($element);
-        if (isset($this->elements[$hash_code])) {
+        if (array_key_exists($hash_code, $this->elements)) {
             unset($this->elements[$hash_code]);
             $this->count--;
             return TRUE;
@@ -248,7 +239,7 @@ abstract class Base_HashSet extends Collection {
         $elements = array();
         $count = 0;
         $hash_code = self::hash_code($element);
-        if (isset($this->elements[$hash_code])) {
+        if (array_key_exists($hash_code, $this->elements)) {
             $elements[$hash_code] = $this->elements[$hash_code];
             $count++;
         }

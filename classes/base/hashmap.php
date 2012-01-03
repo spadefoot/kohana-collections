@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Copyright 2011 Spadefoot
+ * Copyright 2011-2012 Spadefoot
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
  *
  * @package Collection
  * @category HashMap
- * @version 2011-12-31
+ * @version 2012-01-03
  *
  * @abstract
  */
@@ -62,7 +62,7 @@ abstract class Base_HashMap extends Collection {
      */
     public function get_element($key) {
         if (is_integer($key) || is_string($key)) {
-            if (isset($this->elements[$key])) {
+            if (array_key_exists($key, $this->elements)) {
                 $element = $this->elements[$key];
                 return $element;
             }
@@ -102,7 +102,7 @@ abstract class Base_HashMap extends Collection {
      */
     public function has_key($key) {
         if (is_integer($key) || is_string($key)) {
-            $result = isset($this->elements[$key]);
+            $result = array_key_exists($key, $this->elements);
             return $result;
         }
         return FALSE;
@@ -185,7 +185,7 @@ abstract class Base_HashMap extends Collection {
      */
     public function remove_key($key) {
         if (is_integer($key) || is_string($key)) {
-            if (isset($this->elements[$key])) {
+            if (array_key_exists($key, $this->elements)) {
                 unset($this->elements[$key]);
                 $this->count--;
                 return TRUE;
