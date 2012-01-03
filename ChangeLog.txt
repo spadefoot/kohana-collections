@@ -1,6 +1,8 @@
 Changelog for Collections Module
 
 2012-01-03
+* Debugged add, remove, and retain function in all collections.
+* Added some whitespace around logical negations and explicit casts.
 * Change some isset to array_key_exists.
 * Updated copyright year in most classes.
 

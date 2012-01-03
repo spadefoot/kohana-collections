@@ -37,7 +37,7 @@ abstract class Base_Vector extends Collection {
      *                                          or a collection
      */
     public function __construct($variable = NULL) {
-        if (!is_null($variable)) {
+        if ( ! is_null($variable)) {
             if (is_object($variable) && ($variable instanceof Collection)) {
                 $this->add_collection($variable);
             }
@@ -59,7 +59,7 @@ abstract class Base_Vector extends Collection {
      */
     public function add_array(Array $array) {
         $result = FALSE;
-        if (!empty($array)) {
+        if ( ! empty($array)) {
             foreach ($array as $element) {
                 if ($this->add_element($element)) {
                     $result = TRUE;
@@ -125,9 +125,9 @@ abstract class Base_Vector extends Collection {
      *                                          the collection
      */
     public function has_array($array) {
-        if (!empty($array)) {
+        if ( ! empty($array)) {
             foreach ($array as $element) {
-                if (!$this->has_element($element)) {
+                if ( ! $this->has_element($element)) {
                     return FALSE;
                 }
             }
@@ -174,7 +174,7 @@ abstract class Base_Vector extends Collection {
      */
     public function index_of($element) {
         foreach ($this->elements as $index => $value) {
-            if (serialize($value) == serialize($element)) {
+            if ( (string) serialize($value) == (string) serialize($element)) {
                 return $index;
             }
         }
@@ -353,7 +353,7 @@ abstract class Base_Vector extends Collection {
      * @return boolean                          whether any elements were retained
      */
     public function retain_collection(Collection $collection) {
-        $result = $this->retain_collection($collection->as_array());
+        $result = $this->retain_array($collection->as_array());
         return $result;
     }
 

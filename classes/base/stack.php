@@ -49,7 +49,7 @@ abstract class Base_Stack extends Vector {
      *                                          on the stack
      */
     public function peek() {
-        if (!parent::is_empty()) {
+        if ( ! parent::is_empty()) {
             $element = $this->element[$this->count - 1];
             return $element;
         }
@@ -65,7 +65,7 @@ abstract class Base_Stack extends Vector {
      *                                          on the stack
      */
     public function pop() {
-        if (!parent::is_empty()) {
+        if ( ! parent::is_empty()) {
             $element = array_pop($this->elements);
             $this->count--;
             return $element;

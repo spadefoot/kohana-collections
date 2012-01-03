@@ -49,7 +49,7 @@ abstract class Base_Queue extends Vector {
      *                                          in the queue
      */
     public function dequeue() {
-        if (!parent::is_empty()) {
+        if ( ! parent::is_empty()) {
             $element = array_shift($this->elements);
             $this->count--;
             return $element;
@@ -78,7 +78,7 @@ abstract class Base_Queue extends Vector {
      *                                          in the queue
      */
     public function peek() {
-        if (!parent::is_empty()) {
+        if ( ! parent::is_empty()) {
             $element = $this->elements[0];
             return $element;
         }

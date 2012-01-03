@@ -37,7 +37,7 @@ abstract class Base_HashMap extends Collection {
      *                                          or a collection
      */
     public function __construct($variable = NULL) {
-        if (!is_null($variable)) {
+        if ( ! is_null($variable)) {
             if (is_object($variable) && ($variable instanceof Collection)) {
                 $this->put_collection($variable);
             }
@@ -117,7 +117,7 @@ abstract class Base_HashMap extends Collection {
      */
     public function has_value($value) {
         foreach ($this->elements as $element) {
-            if (serialize($value) == serialize($element)) {
+            if ( (string) serialize($value) == (string) serialize($element)) {
                 return TRUE;
             }
         }
@@ -153,7 +153,7 @@ abstract class Base_HashMap extends Collection {
      *                                          is not an integer or a string
      */
     public function put_array(Array $array) {
-        if (!empty($array)) {
+        if ( ! empty($array)) {
             foreach ($array as $key => $value) {
                 $this->put_element($key, $value);
             }
@@ -206,7 +206,7 @@ abstract class Base_HashMap extends Collection {
         $count = 0;
         foreach ($array as $element) {
             foreach ($this->elements as $key => $value) {
-                if (serialize($value) == serialize($element)) {
+                if ( (string) serialize($value) == (string) serialize($element)) {
                     $elements[$key] = $value;
                     $count++;
                 }
@@ -225,7 +225,7 @@ abstract class Base_HashMap extends Collection {
      * @return boolean                          whether any elements were retained
      */
     public function retain_collection(Collection $collection) {
-        $result = $this->retain_collection($collection->as_array());
+        $result = $this->retain_array($collection->as_array());
         return $result;
     }
 
@@ -240,7 +240,7 @@ abstract class Base_HashMap extends Collection {
         $elements = array();
         $count = 0;
         foreach ($this->elements as $key => $value) {
-            if (serialize($value) == serialize($element)) {
+            if ( (string) serialize($value) == (string) serialize($element)) {
                 $elements[$key] = $value;
                 $count++;
             }

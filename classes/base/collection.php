@@ -185,8 +185,7 @@ abstract class Base_Collection extends Kohana_Object implements Countable, Itera
      * @return boolean                          whether iterator is still valid
      */
     public function valid() {
-        $result = !is_null($this->key());
-        return $result;
+        return ( ! is_null($this->key()));
     }
 
     /**
