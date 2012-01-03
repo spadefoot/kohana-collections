@@ -45,7 +45,7 @@ abstract class Base_HashSet extends Collection {
                 $this->add_array($variable);
             }
             else {
-                throw new Kohana_InvalidArgument_Exception('Wrong data type specified.', array(':type', gettype($variable)));
+                throw new Kohana_InvalidArgument_Exception('Message: Unable to initialize class. Reason: :type is of the wrong data type.', array(':type' => gettype($variable)));
             }
         }
     }
@@ -263,6 +263,7 @@ abstract class Base_HashSet extends Collection {
      * This function generates the hash code for the specified element.
      *
      * @access protected
+     * @static
      * @param mixed $element                    the element to be hashed
      * @return string                           the hash code the specified element
      */
