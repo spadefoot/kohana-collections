@@ -116,6 +116,32 @@ abstract class Base_Vector extends Collection {
     }
 
     /**
+     * This function returns a sublist of all elements between the specified range.
+     *
+     * @access public
+     * @param integer $beg_index                the beginning index
+     * @param integer $end_index                the ending index
+     * @return Vector                           a sublist of all elements between the specified
+     *                                          range
+     * @throws Kohana_InvalidArgument_Exception indicates that an index must be an integer
+     * @throws Kohana_InvalidRange_Exception    indicates that the ending index is less than
+     *                                          the beginning index
+     */
+    public function get_range($beg_index, $end_index) {
+        if (is_integer($beg_index) && is_integer($end_index)) {
+            if (array_key_exists($beg_index, $this->elements) && ($end_index >= $beg_index) && ($end_index <= $this->count)) {
+                $sublist = new Vector();
+                for ($index = $beg_index; $index < $end_index; $index++) {
+                    $sublist->add_element($this->elements[$index]);
+                }
+                return $sublist;
+            }
+            throw new Kohana_InvalidRange_Exception('Message: Unable to get range. Reason: Invalid range start from :start and ends at :end', array(':start' => $beg_index, ':end' => $end_index));
+        }
+        throw new Kohana_InvalidArgument_Exception('Message: Unable to get range. Reason: Either :start or :end is of the wrong data type.', array(':start' => gettype($beg_index), ':end' => gettype($end_index)));
+    }
+
+    /**
      * This function determines whether all elements in the specified array are contained
      * within the collection.
      *
@@ -302,24 +328,18 @@ abstract class Base_Vector extends Collection {
      * @throws Kohana_InvalidArgument_Exception indicates that an index must be an integer
      * @throws Kohana_InvalidRange_Exception    indicates that the ending index is less than
      *                                          the beginning index
-     * @throws Kohana_OutOfBounds_Exception     indicates that either the beginning index
-     *                                          or ending index is beyond the bounds of
-     *                                          the array
      */
     public function remove_range($beg_index, $end_index) {
         if (is_integer($beg_index) && is_integer($end_index)) {
-            if (array_key_exists($beg_index, $this->elements) && array_key_exists($end_index, $this->elements)) {
-                if ($beg_index <= $end_index) {
-                    for ($i = $beg_index; $i <= $end_index; $i++) {
-                        unset($this->elements[$i]);
-                        $this->count--;
-                    }
-                    $this->elements = array_values($this->elements);
-                    return TRUE;
+            if (array_key_exists($beg_index, $this->elements) && ($end_index >= $beg_index) && ($end_index <= $this->count)) {
+                for ($index = $beg_index; $index < $end_index; $index++) {
+                    unset($this->elements[$index]);
+                    $this->count--;
                 }
-                throw new Kohana_InvalidRange_Exception('Message: Unable to remove range. Reason: Invalid range start from :start and ends at :end', array(':start' => $beg_index, ':end' => $end_index));
+                $this->elements = array_values($this->elements);
+                return TRUE;
             }
-            throw new Kohana_OutOfBounds_Exception('Message: Unable to remove range. Reason: Invalid index specified', array(':start' => $beg_index, ':end' => $end_index));
+            throw new Kohana_InvalidRange_Exception('Message: Unable to remove range. Reason: Invalid range start from :start and ends at :end', array(':start' => $beg_index, ':end' => $end_index));
         }
         throw new Kohana_InvalidArgument_Exception('Message: Unable to remove range. Reason: Either :start or :end is of the wrong data type.', array(':start' => gettype($beg_index), ':end' => gettype($end_index)));
     }

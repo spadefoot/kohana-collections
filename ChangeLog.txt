@@ -3,7 +3,9 @@ Changelog for Collections Module
 2012-01-03
 * Debugged add, remove, and retain function in all collections.
 * Added some whitespace around logical negations and explicit casts.
+* Added Vector::get_range($beg_index, $end_index).
 * Change some isset to array_key_exists.
+* Added a new Set utility class.
 * Updated copyright year in most classes.
 
 2012-01-02
